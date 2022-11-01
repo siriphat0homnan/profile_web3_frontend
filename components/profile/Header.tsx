@@ -91,7 +91,7 @@ export const Header = () => {
                                 {
                                     Global.loginMetaMask ? 
                                     <button className="font-semibold truncate block" onClick={() => setShowModalAddress(true)}>{frontAddress}...{lastAddress}</button>  
-                                    : <button onClick={loginMetamask} ><span>Login Metamask</span></button>
+                                    : <button onClick={loginMetamask} ><span>Connect Metamask</span></button>
                                 }
                                 {showModalAddress ? (
                                     <>

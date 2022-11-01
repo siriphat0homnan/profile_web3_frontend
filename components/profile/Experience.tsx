@@ -20,14 +20,6 @@ export const Experience = (props: { data: any; }) => {
         };
     }, [companyExperience, freelanceExperience]);
 
-    // console.log(companyExperience, freelanceExperience)
- 
-    // let showFreelanceExperience = []
-    // if(freelanceExperience) showFreelanceExperience = freelanceExperience;
-
-
-
-
     return(
         <div className="px-6">
             {showCompanyExperience || showFreelanceExperience? 

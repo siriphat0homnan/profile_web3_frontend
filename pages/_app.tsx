@@ -5,6 +5,7 @@ import 'tailwindcss/tailwind.css';
 
 import React, {useEffect} from 'react'
 import {init} from './api/web3Init'
+import App from 'next/app';
 
 
 

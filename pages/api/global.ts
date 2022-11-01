@@ -5,5 +5,5 @@ export namespace Global {
     export let addressContract : string = '0x164bb61E0F89b47EE6a945260424C26605973536';
     export let isInit : any = false;
     export let profileContract : any
-    export let userInfo : any
+    export let userInfo : any = {}
 }

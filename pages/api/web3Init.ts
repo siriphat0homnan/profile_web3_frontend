@@ -4,32 +4,41 @@ import axios from "axios";
 import profile from '../../abi/profile.json'
 import {Global} from './global'
 import Router from 'next/router'
+import { MetaMaskInpageProvider } from "@metamask/providers";
+
+declare global {
+  interface Window{
+    ethereum?:MetaMaskInpageProvider
+  }
+}
+
 
 
 export const init = async () => {
+    
     const web3 = new Web3((window as any).ethereum);
 
     if(typeof window.ethereum !== "undefined"){
         // login
         let provider = window.ethereum
-        let accounts = await provider.request({method: 'eth_accounts'});
+        let accounts : any = await provider.request({method: 'eth_accounts'});
         if (Global.loginMetaMask && accounts && accounts.length > 0) {
             Global.selectAccount = accounts[0];
 
-            (window as any).ethereum.on('accountsChanged', function (accounts:any){
+            (window as any).ethereum.on('accountsChanged', async function  (accounts:any){
+                Global.userInfo = {}
                 Global.selectAccount = accounts[0];
                 // redirect profile
-
                 if(Global.loginMetaMask){
                     if(Global.selectAccount.toLowerCase() == Global.addressMySelf.toLowerCase()){
+                        await getInfo(Global.selectAccount)
                         Router.push('/profile/siriphat_homnan')
-                        getInfo(Global.selectAccount)
                     }else{
+                        await getInfo(Global.selectAccount)
                         Router.push('/profile/'+ Global.selectAccount)
-                        getInfo(Global.selectAccount)
                     }
                 }
-    window.location.reload()
+                // window.location.reload()
             });
         } 
     }
@@ -44,14 +53,13 @@ export const loginMetamask = async () => {
     const web3 = new Web3((window as any).ethereum);
     // login with metamask
     if(typeof window.ethereum !== "undefined"){
+        Global.userInfo = {}
         let provider = window.ethereum;
         // get account 
-        const accounts = await provider.send('eth_requestAccounts')
+        const accounts : any = await provider.send('eth_requestAccounts')
         if(accounts) Global.selectAccount = accounts.result[0];
+        await getInfo(Global.selectAccount)
         Router.push('/profile/'+ Global.selectAccount)
-
-        getInfo(Global.selectAccount)
-
         Global.loginMetaMask = true
 
     }
@@ -72,32 +80,26 @@ export const logoutMetamask = async () => {
     })
     Global.loginMetaMask = false
     Global.selectAccount = ''
+    await getInfo(Global.addressMySelf)
     Router.push('/profile/siriphat_homnan')
-    getInfo(Global.addressMySelf)
 }
 
 
 
 export const getInfo = async (address : string) => {
-    if(Global.isInit){
+    // if(Global.isInit){
         return new Promise (async (resolve, reject) => {
             try {
                 let url = "https://ornate-kelpie-e4aeee.netlify.app/.netlify/functions/api/profile?address=" + address
+                // let url = "http://localhost:9000/.netlify/functions/api/profile?address="+ address
                 let res = await axios.get(url)
                 Global.userInfo = res.data
-                // Global.userInfo = await Global.profileContract.methods.profile(address).call({from : address});
-                // let educationCount = await Global.profileContract.methods.getEducationCount().call({from : address});
-                // let education = []
-                // for (let index = 0; index < educationCount; index++) {
-                //     education.push(await Global.profileContract.methods.getEducation(index).call({from : address}));
-                // }
-                // Global.userInfo.educationCount = educationCount;
-                // Global.userInfo.education = education;
                 resolve(Global.userInfo)
             } catch (error) {
                 Router.push('/profile/siriphat_homnan')
+                reject(error)
             }
         });
         // console.log(Global.userInfo.information )
-    }
+    // }
 }

@@ -1,22 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import type { NextPage, GetStaticProps } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../../styles/Home.module.css'
 import {Header} from "../../components/profile/Header";
 import {Description} from "../../components/profile/Description";
 import {Experience} from "../../components/profile/Experience";
 import {Skill} from "../../components/profile/Skill";
 import {Education} from "../../components/profile/Education";
 import {Award} from "../../components/profile/Award";
-
 import {Global} from '../api/global'
 import { useEffect, useState } from 'react';
 import SearchBar from '../../components/button/SearchBar';
-
-
 import {getInfo} from '../api/web3Init'
-
 
 const Profile: NextPage = ({address} : any) => {
     const [isInfo, setIsInfo] = useState(false);
@@ -24,26 +17,28 @@ const Profile: NextPage = ({address} : any) => {
     const [education, setEducation] = useState([] as any);
     const [experience, setExperience] = useState({});
     const [award, setAward] = useState({});
-
-
     const [skill, setSkill] = useState({});
     const [show, setShow] = useState(false);
+    const [errorText, setErrorText] = useState('Loading data . . .');
 
-    // get data
-    if(address){
-        getInfo(address).then(() => {
+
+    const setUserInfo = async() => {
+        if(address){
+            await getInfo(address).catch((err) => {
+                setErrorText('Message: '+ err.message)
+            })
             setIsInfo(true)
-        })
+        }else{
+            setIsInfo(false)
+        }  
     }
 
-
- 
-    
     useEffect(() => {
+        if(!isInfo){
+            setUserInfo()
+        }
         // set data
-        if(isInfo && typeof Global.userInfo !== 'undefined'){    
-            console.log("xxxx", Global.userInfo)
-            // let noDataInfo = false;
+        if(isInfo && typeof Global.userInfo !== 'undefined' && Global.userInfo.code !== "INVALID_ARGUMENT" && Object.keys(Global.userInfo).length > 0){    
             // information
             let information = Global.userInfo.information
             let privateContract = Global.userInfo.privateContract
@@ -93,18 +88,21 @@ const Profile: NextPage = ({address} : any) => {
             let show = (information[2] == "0x0000000000000000000000000000000000000000") ? false : true;
             setShow(show)
         }
+
+        if(Global.userInfo.code === "INVALID_ARGUMENT"){
+            setErrorText("INVALID ARGUMENT")
+        }
+
     }, [Global.userInfo]);
 
     return (
-        <div  className='dark:bg-gray-700 text-gray-900 dark:text-gray-100'>
+        <div className='dark:bg-gray-700 text-gray-900 dark:text-gray-100'>
             <div className='lg:max-w-7xl mx-auto md:max-w-2xl min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-xl'>
                 <Header></Header>
             </div>
             <div className='lg:max-w-7xl mx-auto md:max-w-2xl min-w-0 break-words '>
                 <SearchBar></SearchBar>  
             </div>
-
-
             <div id='print' className='py-16 mt-10'>
                     {address && show ? 
                     <div className='lg:px-24 flex flex-col dark:bg-gray-900 dark:border border-slate-500 text-gray-500 dark:text-white relative lg:max-w-7xl mx-auto md:max-w-2xl min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-xl' >
@@ -115,32 +113,19 @@ const Profile: NextPage = ({address} : any) => {
                         <Award data={award}></Award>
                     </div>: 
                     <div className='flex flex-col dark:bg-gray-900 dark:border border-slate-500 text-gray-500 dark:text-white relative max-w-md lg:max-w-7xl mx-auto  md:max-w-2xl min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-xl'>
-                        <p className='p-24'>loading data . . .</p>
+                        <p className='p-24'>{errorText}</p>
                     </div>}
             </div>
         </div>
   )
-  
 }
 
-export const  getStaticPaths = async () => {
+Profile.getInitialProps = async ({query} : any) => {
+    let {address} = query
+    address = (address == 'siriphat_homnan') ? Global.addressMySelf: address;
     return {
-        paths: [
-            '/profile/default',
-          ],
-        fallback: true,
-    };
-}
-
-export const getStaticProps = async ({params} : any) => {
-    const address = (params.address == 'siriphat_homnan') ? Global.addressMySelf: params.address;
-    return {
-        props: {
-            address : address
-        },
+        address
     }
 }
-
-
 
 export default Profile
