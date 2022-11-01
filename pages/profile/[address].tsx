@@ -96,7 +96,7 @@ const Profile: NextPage = ({address} : any) => {
     }, [Global.userInfo]);
 
     return (
-        <div className='dark:bg-gray-700 text-gray-900 dark:text-gray-100 max-h-screen h-screen'>
+        <div className='dark:bg-gray-700 text-gray-900 dark:text-gray-100'>
             <div className='lg:max-w-7xl mx-auto md:max-w-2xl min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-xl'>
                 <Header></Header>
             </div>
