@@ -19,7 +19,6 @@ EXPOSE 3000
 # FROM node:19-alpine AS runner
 FROM node:19-alpine
 WORKDIR /app
-
 ENV NODE_ENV production
 
 
@@ -37,7 +36,6 @@ COPY --from=builder /app/node_modules ./node_modules
 
 
 EXPOSE 3000
-
 ENV PORT 3000
 
 CMD ["yarn","start"]
