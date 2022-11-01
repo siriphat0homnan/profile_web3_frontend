@@ -31,7 +31,7 @@ COPY --from=builder /app/pages ./pages
 COPY --from=builder /app/styles ./styles
 COPY --from=builder /app/abi ./abi
 COPY --from=builder /app/components ./components
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 

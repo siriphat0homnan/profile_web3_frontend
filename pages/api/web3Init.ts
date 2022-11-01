@@ -32,7 +32,7 @@ export const init = async () => {
                 if(Global.loginMetaMask){
                     if(Global.selectAccount.toLowerCase() == Global.addressMySelf.toLowerCase()){
                         await getInfo(Global.selectAccount)
-                        Router.push('/profile/siriphat_homnan')
+                        Router.push('/profile/' + Global.addressMySelf)
                     }else{
                         await getInfo(Global.selectAccount)
                         Router.push('/profile/'+ Global.selectAccount)
@@ -81,7 +81,7 @@ export const logoutMetamask = async () => {
     Global.loginMetaMask = false
     Global.selectAccount = ''
     await getInfo(Global.addressMySelf)
-    Router.push('/profile/siriphat_homnan')
+    Router.push('/profile/' + Global.addressMySelf)
 }
 
 
@@ -96,7 +96,7 @@ export const getInfo = async (address : string) => {
                 Global.userInfo = res.data
                 resolve(Global.userInfo)
             } catch (error) {
-                Router.push('/profile/siriphat_homnan')
+                Router.push('/profile/' + Global.addressMySelf)
                 reject(error)
             }
         });
