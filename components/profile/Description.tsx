@@ -44,23 +44,33 @@ export const Description = (props: { data: any; }) => {
                     </div>
                     <div className="justify-center border-l border-slate-200 mx-4 pl-2">
                         <div className="w-full p-2 flex flex-row ">
-                            <FaPhoneAlt className="inline"/> 
+                            <div className="w-5">
+                                <FaPhoneAlt className="inline w-5 h-5"/> 
+                            </div>
                             <p className="font-light leading-relaxed text-xs dark:text-gray-200 text-slate-600 pl-4"><a className="hover:text-black dark:hover:text-white"  href={"tel:"+ phone} target="_blank" rel="noreferrer"> {phone}</a></p>
                         </div>
                         <div className="w-full p-2 flex flex-row ">
-                            <FiMail className="inline"/>
+                            <div className="w-5">
+                                <FiMail className="inline w-5 h-5"/>
+                            </div>
                             <p className="font-light leading-relaxed text-xs dark:text-gray-200 text-slate-600 pl-4" ><a className="hover:text-black dark:hover:text-white"  href={"mailto:"+ email} target="_blank" rel="noreferrer">{email}</a></p>
                         </div>
                         <div className="w-full p-2 flex flex-row ">
-                            <FaGithub className="inline"/>
+                            <div className="w-5">
+                                <FaGithub className="inline w-5 h-5"/>
+                            </div>
                             <p className="font-light leading-relaxed text-xs dark:text-gray-200 text-slate-600 pl-4" ><a className="hover:text-black dark:hover:text-white"  href={github} target="_blank" rel="noreferrer"> {github} </a></p>
                         </div>
                         <div className="w-full p-2 flex flex-row ">
-                            <FaGitlab className="inline"/>
+                            <div className="w-5">
+                                <FaGitlab className="inline w-5 h-5"/>
+                            </div>
                             <p className="font-light leading-relaxed text-xs dark:text-gray-200 text-slate-600 pl-4" > <a className="hover:text-black dark:hover:text-white"  href={gitlab} target="_blank" rel="noreferrer"> {gitlab}</a></p>
                         </div>
-                        <div className="w-full p-2 ml-1 flex flex-row ">
-                            <FaLinkedin className="inline "/>
+                        <div className="w-full p-2 flex flex-row ">
+                            <div className="w-5">
+                                <FaLinkedin className="inline w-5 h-5"/>
+                            </div>
                             <p className="font-light leading-relaxed text-xs dark:text-gray-200 text-slate-600 pl-4" > <a className="hover:text-black dark:hover:text-white"  href={linkedin} target="_blank" rel="noreferrer">{linkedin}</a></p>
                         </div>
                     </div>
