@@ -90,7 +90,7 @@ export const getInfo = async (address : string) => {
     // if(Global.isInit){
         return new Promise (async (resolve, reject) => {
             try {
-                let url = "https://ornate-kelpie-e4aeee.netlify.app/.netlify/functions/api/profile?address=" + address
+                let url = "https://web3-resume-backend.netlify.app/.netlify/functions/api/profile?address=" + address
                 // let url = "http://localhost:9000/.netlify/functions/api/profile?address="+ address
                 let res = await axios.get(url)
                 Global.userInfo = res.data
