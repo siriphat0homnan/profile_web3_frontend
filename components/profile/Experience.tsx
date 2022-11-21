@@ -37,7 +37,7 @@ export const Experience = (props: { data: any; }) => {
                             <div className="w-full text-left px-4">
                                 <h3 className="text-1xl text-slate-700 dark:text-white font-bold leading-normal mb-2">Company Employee</h3>
                             </div>
-                            {companyExperience.reverse().map((company: any, i:any) => {     
+                            {companyExperience.map((company: any, i:any) => {     
                             return (
                                     <div className="w-full px-12 py-2" key={'company-' + i}>
                                         <h3 className="text-1xl text-slate-700 dark:text-white leading-normal">{company.companyName}</h3>
